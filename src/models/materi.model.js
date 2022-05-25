@@ -14,7 +14,7 @@ const theorySchema = mongoose.Schema(
       trim: true,
     },
     class: {
-      type: String,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'Class',
       trim: true,
       required: true,

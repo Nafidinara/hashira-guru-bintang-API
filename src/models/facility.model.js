@@ -6,7 +6,7 @@ const facilitySchema = mongoose.Schema(
   {
     image: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     description: {

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const classSchema = mongoose.Schema(
   {
@@ -21,7 +21,7 @@ const classSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     category: {
@@ -37,22 +37,21 @@ const classSchema = mongoose.Schema(
       type: Number,
       required: false,
     },
-    status: {
+    isFree: {
       type: Boolean,
       default: true,
     },
     author: {
-      type: String,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
       trim: true,
       required: true,
     },
-    facility: {
-      type: String,
-      ref: 'Facility',
-      trim: true,
-      required: true,
-    },
+    facilities: [{
+      type: mongoose.SchemaTypes.ObjectId,
+      required: false,
+      ref : 'Facility'
+    }],
   },
   {
     timestamps: true,
@@ -61,7 +60,8 @@ const classSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 classSchema.plugin(toJSON);
+classSchema.plugin(paginate);
 
-const Review = mongoose.model('Review', classSchema);
+const Class = mongoose.model('Class', classSchema);
 
-module.exports = Review;
+module.exports = Class;
