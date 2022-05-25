@@ -10,11 +10,42 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
+    },
+    job: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    district: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    regency: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    province: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    dob: {
+      type: String,
+      required: false,
+      trim: true,
     },
     image: {
       type: String,
       required: false,
-      default : '',
+      default: '',
     },
     email: {
       type: String,
@@ -48,7 +79,11 @@ const userSchema = mongoose.Schema(
     isEmailVerified: {
       type: Boolean,
       default: false,
-    }
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
