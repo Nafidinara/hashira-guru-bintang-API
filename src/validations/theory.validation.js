@@ -37,9 +37,9 @@ const updateTheory = {
   }),
   body: Joi.object()
     .keys({
-      title: Joi.string().required(),
-      source_file: Joi.string().required(),
-      class: Joi.string().required(),
+      title: Joi.string(),
+      source_file: Joi.string(),
+      class: Joi.string(),
     })
     .min(1),
 };

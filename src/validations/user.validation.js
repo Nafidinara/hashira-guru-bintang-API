@@ -7,14 +7,14 @@ const createUser = {
     password: Joi.string().required().custom(password),
     username: Joi.string().required(),
     image: Joi.string(),
-    role: Joi.string().default('user').valid('user', 'admin','superadmin'),
+    role: Joi.string().default('user').valid('user', 'admin','mentor'),
   }),
 };
 
 const getUsers = {
   query: Joi.object().keys({
     username: Joi.boolean(),
-    role: Joi.string().valid('user', 'admin','superadmin'),
+    role: Joi.string().valid('user', 'admin','mentor'),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -23,7 +23,7 @@ const getUsers = {
 
 const getTotalUser = {
   query: Joi.object().keys({
-    role: Joi.string().valid('user', 'admin','superadmin'),
+    role: Joi.string().valid('user', 'admin','mentor'),
   }),
 };
 
@@ -33,7 +33,7 @@ const getSearchUser = {
     email: Joi.alternatives().try(Joi.string(), Joi.array()),
     username: Joi.alternatives().try(Joi.string(), Joi.array()),
     image: Joi.alternatives().try(Joi.string(), Joi.array()),
-    role: Joi.alternatives().try(Joi.string().valid('user', 'admin','superadmin'), Joi.array())
+    role: Joi.alternatives().try(Joi.string().valid('user', 'admin','mentor'), Joi.array())
   }),
 };
 
@@ -59,7 +59,7 @@ const updateUser = {
       password: Joi.string().custom(password),
       username: Joi.string(),
       image: Joi.string(),
-      role: Joi.string().valid('user', 'admin','superadmin'),
+      role: Joi.string().valid('user', 'admin','mentor'),
     })
     .min(1),
 };

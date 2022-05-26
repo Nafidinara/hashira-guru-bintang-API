@@ -44,10 +44,17 @@ const data = [
         "password" : "password123",
       },
       {
-        "role": "superadmin",
+        "role": "mentor",
         "isEmailVerified": false,
-        "username": "hashira-superadmin",
-        "email": "hashirasuperadmin@example.com",
+        "username": "hashira-mentor",
+        "email": "hashirasmentor@example.com",
+        "password" : "password123",
+      },
+      {
+        "role": "mentor",
+        "isEmailVerified": false,
+        "username": "hashira-mentor-2",
+        "email": "hashirasmentor2@example.com",
         "password" : "password123",
       },
       {
