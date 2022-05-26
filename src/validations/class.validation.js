@@ -12,7 +12,7 @@ const createClass = {
     discount: Joi.number().required(),
     isFree: Joi.boolean().required(),
     author: Joi.custom(objectId).required(),
-    facilities : Joi.array()
+    facilities: Joi.array(),
   }),
 };
 
@@ -29,7 +29,7 @@ const getSearchClass = {
   body: Joi.object().keys({
     _id: Joi.alternatives().try(Joi.string(), Joi.array()),
     title: Joi.alternatives().try(Joi.string(), Joi.array()),
-    category: Joi.alternatives().try(Joi.string(), Joi.array())
+    category: Joi.alternatives().try(Joi.string(), Joi.array()),
   }),
 };
 
@@ -60,7 +60,7 @@ const updateClass = {
       discount: Joi.number(),
       isFree: Joi.boolean(),
       author: Joi.custom(objectId),
-      facilities : Joi.array()
+      facilities: Joi.array(),
     })
     .min(1),
 };
@@ -78,5 +78,5 @@ module.exports = {
   updateClass,
   deleteClass,
   getSearchClass,
-  getImageClass
+  getImageClass,
 };
