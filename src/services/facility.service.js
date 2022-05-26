@@ -104,5 +104,6 @@ module.exports = {
   updateFacilityById,
   deleteFacilityById,
   querySearch,
-  getImageFacility
+  getImageFacility,
+  queryFacilities
 };

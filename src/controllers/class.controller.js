@@ -18,7 +18,7 @@ const getClasses = catchAsync(async (req, res) => {
 
 const getSearchClass = catchAsync(async (req, res) => {
   const query = req.body;
-  // const result = await classService.querySearch(query, {});
+  const result = await classService.querySearch(query, {});
   res.send(result);
 });
 

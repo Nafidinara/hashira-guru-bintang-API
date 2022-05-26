@@ -9,6 +9,11 @@ const facilitySchema = mongoose.Schema(
       required: false,
       trim: true,
     },
+    title: {
+      type: String,
+      required: false,
+      trim: true,
+    },
     description: {
       type: String,
       required: true,
