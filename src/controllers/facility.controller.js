@@ -10,7 +10,7 @@ const createFacility = catchAsync(async (req, res) => {
 });
 
 const getFacilities = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['title']);
+  const filter = pick(req.query, []);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await facilityService.queryFacilities(filter, options);
   res.send(result);
