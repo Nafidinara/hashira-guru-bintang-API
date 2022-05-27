@@ -25,6 +25,8 @@ const createClass = async (classBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryClasses = async (filter, options) => {
+  Object.assign(options,{populate : 'facilities, author'});
+  console.log(options, filter);
   return Class.paginate(filter, options);
 };
 
@@ -44,7 +46,7 @@ const querySearch = async (filter, options) => {
 /**
  * Get class by id
  * @param {ObjectId} id
- * @returns {Promise<class>}
+ * @returns {Promise<Class>}
  */
 const getClassById = async (id) => {
   return Class.findById(id);

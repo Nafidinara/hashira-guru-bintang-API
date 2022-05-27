@@ -10,22 +10,22 @@ const createTheory = {
 
 const getTheory = {
   query: Joi.object().keys({
-    title: Joi.string().required(),
-    source_file: Joi.string().required(),
-    class: Joi.string().required(),
+    title: Joi.string(),
+    source_file: Joi.string(),
+    class: Joi.string(),
   }),
 };
 
 const getSearchTheory = {
   body: Joi.object().keys({
     _id: Joi.alternatives().try(Joi.string(), Joi.array()),
-    title: Joi.string().required(),
-    source_file: Joi.string().required(),
-    class: Joi.string().required(),
+    title: Joi.string(),
+    source_file: Joi.string(),
+    class: Joi.string(),
   }),
 };
 
-const getImageTheory = {
+const getFileTheory = {
   params: Joi.object().keys({
     _id: Joi.string(),
   }),
@@ -54,7 +54,7 @@ module.exports = {
   createTheory,
   getTheory,
   getSearchTheory,
-  getImageTheory,
+  getFileTheory,
   updateTheory,
   deleteTheory,
 };

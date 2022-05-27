@@ -1,13 +1,13 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const classValidation = require('../../validations/class.validation');
-const classController = require('../../controllers/class.controller');
+const theoryValidation = require('../../validations/theory.validation');
+const theoryController = require('../../controllers/theory.controller');
 const router = express.Router();
 const multer = require('multer');
-const fs = require('fs');
 const path = require('path');
-const dirPath = 'src/public/assets/images/classes';
+const fs = require('fs');
+const dirPath = 'src/public/assets/storage/theories';
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -45,28 +45,28 @@ const upload = multer({
   storage : storage,
   limits: { fileSize: 2000000 },
   fileFilter: function(_req, file, cb){
-    checkFileType(file, cb);
-  }
+  checkFileType(file, cb);
+}
 }).single('image');
 
 router
   .route('/')
-  .post(auth('manageClasses'),upload, validate(classValidation.createClass), classController.createClass)
-  .get(auth('getClasses'), validate(classValidation.getClasses), classController.getClasses)
+  .post(auth('manageTheories'),upload, validate(theoryValidation.createTheory), theoryController.createTheory)
+  .get(auth('getTheories'), validate(theoryValidation.getTheory), theoryController.getTheories)
 
 router
   .route('/search')
-  .post(auth('getClasses'), validate(classValidation.getSearchClass), classController.getSearchClass);
+  .post(auth('getTheories'), validate(theoryValidation.getSearchTheory), theoryController.getSearchTheory);
 
 router
-  .route('/image/:classId')
-  .get(auth('getClasses'), validate(classValidation.getImageClass), classController.getImageClass);
+  .route('/image/:theoryId')
+  .get(auth('getTheories'), validate(theoryValidation.getFileTheory), theoryController.getFileTheory);
 
 router
-  .route('/:classId')
-  .get(auth('getClasses'), validate(classValidation.getClass), classController.getClass)
-  .put(auth('manageClasses'),upload, validate(classValidation.updateClass), classController.updateClass)
-  .delete(auth('manageClasses'), validate(classValidation.deleteClass), classController.deleteClass);
+  .route('/:theoryId')
+  .get(auth('getTheories'), validate(theoryValidation.getTheory), theoryController.getTheory)
+  .put(auth('manageTheories'),upload, validate(theoryValidation.updateTheory), theoryController.updateTheory)
+  .delete(auth('manageTheories'), validate(theoryValidation.deleteTheory), theoryController.deleteTheory);
 
 module.exports = router;
 
@@ -79,10 +79,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /classes:
+ * /theories:
  *   post:
- *     summary: Create a class
- *     description: Only admins can create other classes.
+ *     summary: Create a theory
+ *     description: Only admins can create other theories.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -110,7 +110,7 @@ module.exports = router;
  *                 description: At least one number and one letter
  *               role:
  *                  type: string
- *                  enum: [class, admin]
+ *                  enum: [theory, admin]
  *             example:
  *               name: fake name
  *               email: fake@example.com
@@ -130,8 +130,8 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all classes
- *     description: get all classes with some query params.
+ *     summary: Get all theories
+ *     description: get all theories with some query params.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -152,7 +152,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of classes
+ *         description: Maximum number of theories
  *       - in: query
  *         name: page
  *         schema:
@@ -192,10 +192,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /classes/{id}:
+ * /theories/{id}:
  *   get:
- *     summary: Get a class
- *     description: Logged in classes can fetch only their own class information.
+ *     summary: Get a theory
+ *     description: Logged in theories can fetch only their own theory information.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -221,8 +221,8 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a class
- *     description: Logged in classes can only update their own information.
+ *     summary: Update a theory
+ *     description: Logged in theories can only update their own information.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -272,8 +272,8 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a class
- *     description: Logged in classes can delete only themselves.
+ *     summary: Delete a theory
+ *     description: Logged in theories can delete only themselves.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []

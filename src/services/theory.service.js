@@ -44,19 +44,19 @@ const querySearch = async (filter, options) => {
 /**
  * Get theory by id
  * @param {ObjectId} id
- * @returns {Promise<theory>}
+ * @returns {Promise<Theory>}
  */
 const getTheoryById = async (id) => {
   return Theory.findById(id);
 };
 
-const getImageTheory = async (theoryId) => {
+const getFileTheory = async (theoryId) => {
   const theoryModel = await getTheoryById(theoryId);
   if (!theoryModel) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Theory not found');
   }
   const dirname = path.resolve();
-  return path.join(dirname, theoryModel.image);
+  return path.join(dirname, theoryModel.source_file);
 };
 
 /**
@@ -70,11 +70,11 @@ const updateTheoryById = async (classId, updateBody) => {
   if (!theory) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Theory not found');
   }
-  if (updateBody['image']){
-    let img = updateBody['image'];
-    updateBody['image'] = img.path;
-    console.log(theory.image);
-    unlink(theory.image, (err) => {
+  if (updateBody['source_file']){
+    let img = updateBody['source_file'];
+    updateBody['source_file'] = img.path;
+    console.log(theory.source_file);
+    unlink(theory.source_file, (err) => {
       if (err) console.log('file not found');
       console.log('file was deleted');
     });
@@ -104,5 +104,6 @@ module.exports = {
   updateTheoryById,
   deleteTheoryById,
   querySearch,
-  getImageTheory
+  getFileTheory,
+  queryTheories
 };

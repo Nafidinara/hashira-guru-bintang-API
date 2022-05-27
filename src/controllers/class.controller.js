@@ -5,12 +5,12 @@ const catchAsync = require('../utils/catchAsync');
 const { classService } = require('../services');
 
 const createClass = catchAsync(async (req, res) => {
-  const user = await classService.createUser(req.body);
-  res.status(httpStatus.CREATED).send(user);
+  const _class = await classService.createClass(req.body);
+  res.status(httpStatus.CREATED).send(_class);
 });
 
 const getClasses = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['title']);
+  const filter = pick(req.query, []);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await classService.queryClasses(filter, options);
   res.send(result);
@@ -23,28 +23,28 @@ const getSearchClass = catchAsync(async (req, res) => {
 });
 
 const getImageClass = catchAsync(async (req, res) => {
-  const result = await classService.getImageUser(req.params.userId);
+  const result = await classService.getImageClass(req.params.classId);
   res.sendFile(result);
 });
 
 const getClass = catchAsync(async (req, res) => {
-  const user = await classService.getUserById(req.params.userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  const _class = await classService.getClassById(req.params.classId);
+  if (!_class) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Class not found');
   }
-  res.send(user);
+  res.send(_class);
 });
 
 const updateClass = catchAsync(async (req, res) => {
   if (req.file){
     req.body.image = req.file;
   }
-  const user = await classService.updateUserById(req.params.userId, req.body);
-  res.send(user);
+  const _class = await classService.updateClassById(req.params.classId, req.body);
+  res.send(_class);
 });
 
 const deleteClass = catchAsync(async (req, res) => {
-  await classService.deleteUserById(req.params.userId);
+  await classService.deleteClassById(req.params.classId);
   res.status(httpStatus.OK).send({
     result : "Success delete"
   });
