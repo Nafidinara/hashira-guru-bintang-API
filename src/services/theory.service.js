@@ -11,8 +11,12 @@ const {unlink} = require('fs');
  * @returns {Promise<Theory>}
  */
 const createTheory = async (theoryBody) => {
-  let theoryModel = await Theory.create(theoryBody);
-  return Theory.findOne({ _id: theoryModel._id });
+  // let theoryModel = await Theory.create(theoryBody);
+  // console.log(theoryBody);
+  let theoryModel = await Theory.insertMany(theoryBody.dataPost);
+  return theoryModel;
+  // console.log(theoryModel);
+  // return Theory.findOne({ _id: theoryModel._id });
 };
 
 /**

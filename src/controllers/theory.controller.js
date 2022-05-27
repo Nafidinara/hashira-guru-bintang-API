@@ -8,6 +8,7 @@ const createTheory = catchAsync(async (req, res) => {
   if (req.file){
     req.body.image = req.file;
   }
+
   const theory = await theoryService.createTheory(req.body);
   res.status(httpStatus.CREATED).send(theory);
 });
