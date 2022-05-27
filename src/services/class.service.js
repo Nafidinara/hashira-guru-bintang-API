@@ -12,7 +12,7 @@ const {unlink} = require('fs');
  */
 const createClass = async (classBody) => {
   let classModel = await Class.create(classBody);
-  return Class.findOne({ _id: classModel._id });
+  return Class.findOne({ _id: classModel._id }).populate(['facilities','author']);
 };
 
 /**
@@ -26,7 +26,6 @@ const createClass = async (classBody) => {
  */
 const queryClasses = async (filter, options) => {
   Object.assign(options,{populate : 'facilities, author'});
-  console.log(options, filter);
   return Class.paginate(filter, options);
 };
 
@@ -40,7 +39,7 @@ const queryClasses = async (filter, options) => {
  * @returns {Promise<QueryResult>}
  */
 const querySearch = async (filter, options) => {
-  return Class.find(filter, options);
+  return Class.find(filter, options).populate(['facilities','author']);
 };
 
 /**
@@ -49,7 +48,7 @@ const querySearch = async (filter, options) => {
  * @returns {Promise<Class>}
  */
 const getClassById = async (id) => {
-  return Class.findById(id);
+  return Class.findById(id).populate(['facilities','author']);
 };
 
 const getImageClass = async (classId) => {
@@ -75,15 +74,16 @@ const updateClassById = async (classId, updateBody) => {
   if (updateBody['image']){
     let img = updateBody['image'];
     updateBody['image'] = img.path;
-    console.log(classModel.image);
-    unlink(classModel.image, (err) => {
-      if (err) console.log('file not found');
-      console.log('file was deleted');
-    });
+    if (classModel.image){
+      unlink(classModel.image, (err) => {
+        if (err) console.log('file not found');
+        console.log('file was deleted');
+      });
+    }
   }
   Object.assign(classModel, updateBody);
   await classModel.save();
-  return classModel;
+  return classModel.populate(['facilities','author']);
 };
 
 /**
