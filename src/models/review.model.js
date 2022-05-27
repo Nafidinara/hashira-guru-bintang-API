@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const reviewSchema = mongoose.Schema(
   {
@@ -39,6 +39,7 @@ const reviewSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 reviewSchema.plugin(toJSON);
+reviewSchema.plugin(paginate);
 
 const Review = mongoose.model('Review', reviewSchema);
 

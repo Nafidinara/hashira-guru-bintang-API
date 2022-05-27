@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const theorySchema = mongoose.Schema(
   {
@@ -27,6 +27,7 @@ const theorySchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 theorySchema.plugin(toJSON);
+theorySchema.plugin(paginate);
 
 const Theory = mongoose.model('Theory', theorySchema);
 

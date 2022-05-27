@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const createFacility = {
   body: Joi.object().keys({
-    image: Joi.string().required(),
+    image: Joi.string(),
     description: Joi.string().required(),
     title: Joi.string().required(),
   }),
@@ -27,7 +27,7 @@ const getSearchFacility = {
 
 const getImageFacility = {
   params: Joi.object().keys({
-    _id: Joi.string(),
+    facilityId: Joi.string(),
   }),
 };
 

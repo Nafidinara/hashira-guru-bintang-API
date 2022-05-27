@@ -11,6 +11,10 @@ const {unlink} = require('fs');
  * @returns {Promise<Facility>}
  */
 const createFacility = async (facilityBody) => {
+  if (facilityBody['image']){
+    let img = facilityBody['image'];
+    facilityBody['image'] = img.path;
+  }
   let facilityModel = await Facility.create(facilityBody);
   return Facility.findOne({ _id: facilityModel._id });
 };

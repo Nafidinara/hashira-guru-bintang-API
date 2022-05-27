@@ -13,6 +13,9 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+// const multer = require('multer');
+// const upload = multer();
+
 
 const app = express();
 
@@ -21,13 +24,15 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+// app.use(upload.none());
+
 // set security HTTP headers
 app.use(helmet());
 
-// parse json request body
+// // parse json request body
 app.use(express.json());
-
-// parse urlencoded request body
+//
+// // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data

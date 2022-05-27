@@ -5,8 +5,11 @@ const catchAsync = require('../utils/catchAsync');
 const { facilityService } = require('../services');
 
 const createFacility = catchAsync(async (req, res) => {
-  const user = await facilityService.createUser(req.body);
-  res.status(httpStatus.CREATED).send(user);
+  if (req.file){
+    req.body.image = req.file;
+  }
+  const facility = await facilityService.createFacility(req.body);
+  res.status(httpStatus.CREATED).send(facility);
 });
 
 const getFacilities = catchAsync(async (req, res) => {
@@ -23,28 +26,28 @@ const getSearchFacility = catchAsync(async (req, res) => {
 });
 
 const getImageFacility = catchAsync(async (req, res) => {
-  const result = await facilityService.getImageUser(req.params.userId);
+  const result = await facilityService.getImageFacility(req.params.facilityId);
   res.sendFile(result);
 });
 
 const getFacility = catchAsync(async (req, res) => {
-  const user = await facilityService.getUserById(req.params.userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  const facility = await facilityService.getFacilityById(req.params.facilityId);
+  if (!facility) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Facility not found');
   }
-  res.send(user);
+  res.send(facility);
 });
 
 const updateFacility = catchAsync(async (req, res) => {
   if (req.file){
-    req.body.image = req.file;
+    req.body.image = req.file.path;
   }
-  const user = await facilityService.updateUserById(req.params.userId, req.body);
-  res.send(user);
+  const facility = await facilityService.updateFacilityById(req.params.facilityId, req.body);
+  res.send(facility);
 });
 
 const deleteFacility = catchAsync(async (req, res) => {
-  await facilityService.deleteUserById(req.params.userId);
+  await facilityService.deleteFacilityById(req.params.facilityId);
   res.status(httpStatus.OK).send({
     result : "Success delete"
   });

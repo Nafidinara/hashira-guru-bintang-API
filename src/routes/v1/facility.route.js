@@ -6,10 +6,15 @@ const facilityController = require('../../controllers/facility.controller');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const dirPath = 'src/public/assets/images/facilities';
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'src/public/assets/images/facilities');
+    if (!fs.existsSync(dirPath)){
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+    callback(null, dirPath);
   },
   filename: function (req, file, cb) {
     cb(
@@ -46,8 +51,8 @@ const upload = multer({
 
 router
   .route('/')
-  .post(auth('manageFacilities'), validate(facilityValidation.createFacility), facilityController.createFacility)
-  .get(auth('getFacilities'), validate(facilityValidation.getFacilities), facilityController.getFacilities)
+  .post(auth('manageFacilities'),upload, validate(facilityValidation.createFacility), facilityController.createFacility)
+  .get(auth('getFacilities'), validate(facilityValidation.getFacility), facilityController.getFacilities)
 
 router
   .route('/search')

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const facilitySchema = mongoose.Schema(
   {
@@ -27,6 +27,7 @@ const facilitySchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 facilitySchema.plugin(toJSON);
+facilitySchema.plugin(paginate);
 
 const Facility = mongoose.model('Facility', facilitySchema);
 

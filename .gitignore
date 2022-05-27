@@ -12,4 +12,5 @@ yarn-error.log
 # Code coverage
 coverage
 .idea
-/src/public/assets/images/users
+/src/public/assets/
+!/src/public/assets-dump/
