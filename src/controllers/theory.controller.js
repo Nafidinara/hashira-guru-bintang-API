@@ -6,15 +6,28 @@ const { theoryService } = require('../services');
 
 const createTheory = catchAsync(async (req, res) => {
   if (req.file){
-    req.body.image = req.file;
+    console.log(req.file);
+    req.body.source_file = req.file.path;
   }
-
+  console.log(req.body,req.file);
   const theory = await theoryService.createTheory(req.body);
   res.status(httpStatus.CREATED).send(theory);
 });
 
+const createBatchTheory = catchAsync(async (req, res) => {
+  if (req.files){
+    for (let i = 0; i < req.body.batchData.length; i++){
+      console.log("aaa : ",req.files[i])
+      req.body.batchData[i].source_file = req.files[i].path;
+    }
+  }
+
+  const theory = await theoryService.createBatchTheory(req.body);
+  res.status(httpStatus.CREATED).send(theory);
+});
+
 const getTheories = catchAsync(async (req, res) => {
-  const filter = pick(req.query, []);
+  const filter = pick(req.query, ['class']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await theoryService.queryTheories(filter, options);
   res.send(result);
@@ -41,7 +54,7 @@ const getTheory = catchAsync(async (req, res) => {
 
 const updateTheory = catchAsync(async (req, res) => {
   if (req.file){
-    req.body.image = req.file.path;
+    req.body.source_file = req.file.path;
   }
   const theory = await theoryService.updateTheoryById(req.params.theoryId, req.body);
   res.send(theory);
@@ -61,5 +74,6 @@ module.exports = {
   updateTheory,
   deleteTheory,
   getSearchTheory,
-  getFileTheory
+  getFileTheory,
+  createBatchTheory
 };

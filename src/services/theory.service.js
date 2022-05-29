@@ -11,12 +11,17 @@ const {unlink} = require('fs');
  * @returns {Promise<Theory>}
  */
 const createTheory = async (theoryBody) => {
-  // let theoryModel = await Theory.create(theoryBody);
-  // console.log(theoryBody);
-  let theoryModel = await Theory.insertMany(theoryBody.dataPost);
-  return theoryModel;
-  // console.log(theoryModel);
-  // return Theory.findOne({ _id: theoryModel._id });
+  let theoryModel = await Theory.create(theoryBody);
+  return Theory.findOne({ _id: theoryModel._id }).populate('class');
+};
+
+/**
+ * Create a theory
+ * @param {Object} theoryBody
+ * @returns {Promise<Theory>}
+ */
+const createBatchTheory = async (theoryBody) => {
+  return Theory.insertMany(theoryBody.batchData);
 };
 
 /**
@@ -29,6 +34,7 @@ const createTheory = async (theoryBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryTheories = async (filter, options) => {
+  Object.assign(options,{populate : 'class'});
   return Theory.paginate(filter, options);
 };
 
@@ -42,7 +48,7 @@ const queryTheories = async (filter, options) => {
  * @returns {Promise<QueryResult>}
  */
 const querySearch = async (filter, options) => {
-  return Theory.find(filter, options);
+  return Theory.find(filter, options).populate('class');
 };
 
 /**
@@ -51,7 +57,7 @@ const querySearch = async (filter, options) => {
  * @returns {Promise<Theory>}
  */
 const getTheoryById = async (id) => {
-  return Theory.findById(id);
+  return Theory.findById(id).populate('class');
 };
 
 const getFileTheory = async (theoryId) => {
@@ -74,9 +80,8 @@ const updateTheoryById = async (classId, updateBody) => {
   if (!theory) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Theory not found');
   }
+  console.log(updateBody);
   if (updateBody['source_file']){
-    let img = updateBody['source_file'];
-    updateBody['source_file'] = img.path;
     console.log(theory.source_file);
     unlink(theory.source_file, (err) => {
       if (err) console.log('file not found');
@@ -109,5 +114,6 @@ module.exports = {
   deleteTheoryById,
   querySearch,
   getFileTheory,
-  queryTheories
+  queryTheories,
+  createBatchTheory
 };

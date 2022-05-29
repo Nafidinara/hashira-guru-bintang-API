@@ -33,7 +33,7 @@ const getImageFacility = {
 
 const updateFacility = {
   params: Joi.object().keys({
-    _id: Joi.string(),
+    facilityId: Joi.string(),
   }),
   body: Joi.object()
     .keys({
@@ -46,7 +46,7 @@ const updateFacility = {
 
 const deleteFacility = {
   params: Joi.object().keys({
-    _id: Joi.string(),
+    facilityId: Joi.string(),
   }),
 };
 

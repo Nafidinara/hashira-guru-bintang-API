@@ -53,9 +53,10 @@ const getClassById = async (id) => {
 
 const getImageClass = async (classId) => {
   const classModel = await getClassById(classId);
-  if (!classModel) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Class not found');
+  if (!classModel || !classModel.image) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Class or image not found');
   }
+
   const dirname = path.resolve();
   return path.join(dirname, classModel.image);
 };

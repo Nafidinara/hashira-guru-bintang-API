@@ -2,10 +2,22 @@ const Joi = require('joi');
 
 const createTheory = {
   body: Joi.object().keys({
-    title: Joi.string(),
+    title: Joi.string().required(),
     source_file: Joi.string(),
-    class: Joi.string(),
-    dataPost: Joi.array(),
+    class: Joi.string().required(),
+  }),
+};
+
+const createBatchTheory = {
+  body: Joi.object().keys({
+    batchData : Joi.array()
+    .items(
+      Joi.object({
+        title: Joi.string().required(),
+        source_file: Joi.string(),
+        class: Joi.string().required(),
+      }
+    ))
   }),
 };
 
@@ -28,13 +40,13 @@ const getSearchTheory = {
 
 const getFileTheory = {
   params: Joi.object().keys({
-    _id: Joi.string(),
+    theoryId: Joi.string(),
   }),
 };
 
 const updateTheory = {
   params: Joi.object().keys({
-    _id: Joi.string(),
+    theoryId: Joi.string(),
   }),
   body: Joi.object()
     .keys({
@@ -47,7 +59,7 @@ const updateTheory = {
 
 const deleteTheory = {
   params: Joi.object().keys({
-    _id: Joi.string(),
+    theoryId: Joi.string(),
   }),
 };
 
@@ -58,4 +70,5 @@ module.exports = {
   getFileTheory,
   updateTheory,
   deleteTheory,
+  createBatchTheory
 };

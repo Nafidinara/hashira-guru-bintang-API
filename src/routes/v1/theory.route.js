@@ -3,69 +3,31 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const theoryValidation = require('../../validations/theory.validation');
 const theoryController = require('../../controllers/theory.controller');
+const MultipartHandler = require('../../utils/MultipartHandler');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const dirPath = 'src/public/assets/storage/theories';
-
-const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    if (!fs.existsSync(dirPath)){
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-    callback(null, dirPath);
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      new Date().valueOf() +
-      '_' +
-      file.originalname
-    );
-  }
-});
-
-function checkFileType(file, cb){
-  // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimetype = filetypes.test(file.mimetype);
-
-  if(mimetype && extname){
-    return cb(null,true);
-  } else {
-    cb(new Error('Error: Images Only [ jpeg|jpg|png|gif ]!'));
-  }
-}
-
-const upload = multer({
-  storage : storage,
-  limits: { fileSize: 2000000 },
-  fileFilter: function(_req, file, cb){
-  checkFileType(file, cb);
-}
-}).single('image');
+const multer = MultipartHandler.upload('theories');
 
 router
   .route('/')
-  .post(auth('manageTheories'),upload, validate(theoryValidation.createTheory), theoryController.createTheory)
+  .post(auth('manageTheories'),multer.single('source_file'), validate(theoryValidation.createTheory), theoryController.createTheory)
   .get(auth('getTheories'), validate(theoryValidation.getTheory), theoryController.getTheories)
+
+router
+  .route('/batch')
+  .post(auth('manageTheories'),multer.any(), validate(theoryValidation.createBatchTheory), theoryController.createBatchTheory);
 
 router
   .route('/search')
   .post(auth('getTheories'), validate(theoryValidation.getSearchTheory), theoryController.getSearchTheory);
 
 router
-  .route('/image/:theoryId')
+  .route('/file/:theoryId')
   .get(auth('getTheories'), validate(theoryValidation.getFileTheory), theoryController.getFileTheory);
 
 router
   .route('/:theoryId')
   .get(auth('getTheories'), validate(theoryValidation.getTheory), theoryController.getTheory)
-  .put(auth('manageTheories'),upload, validate(theoryValidation.updateTheory), theoryController.updateTheory)
+  .put(auth('manageTheories'),multer.single('source_file'), validate(theoryValidation.updateTheory), theoryController.updateTheory)
   .delete(auth('manageTheories'), validate(theoryValidation.deleteTheory), theoryController.deleteTheory);
 
 module.exports = router;
