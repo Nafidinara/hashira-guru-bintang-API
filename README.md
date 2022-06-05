@@ -31,7 +31,6 @@ npm run start
 1. ExpressJs
 1. NodeJs
 1. AWS EC2
-1. [boilerplate](https://github.com/hagopj13/node-express-boilerplate)
 
 ## Documentation 📖
 [Postman](https://documenter.getpostman.com/view/9643281/UyxqCiSm#intro)
