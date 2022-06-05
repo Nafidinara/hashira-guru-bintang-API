@@ -14,37 +14,37 @@ const userSchema = mongoose.Schema(
     },
     job: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     district: {
       type: String,
-      required: false,
+      // required: false,
       trim: true,
     },
     regency: {
       type: String,
-      required: false,
+      // required: false,
       trim: true,
     },
     province: {
       type: String,
-      required: false,
+      // required: false,
       trim: true,
     },
     dob: {
       type: String,
-      required: false,
+      // required: false,
       trim: true,
     },
     image: {
       type: String,
-      required: false,
+      // required: false,
       default: '',
     },
     email: {
